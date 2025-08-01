@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos personalizados para el juego V11 FINAL */
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .v11-badge {
+    @apply bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-full font-bold inline-block animate-pulse;
+  }
+
+  .v11-title {
+    @apply bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent;
+  }
+
+  .connection-pulse {
+    @apply animate-pulse;
+  }
+
+  .speed-indicator {
+    @apply bg-gradient-to-r from-green-500 via-yellow-500 to-red-500;
+  }
+
+  .pedaling {
+    animation: pedal 0.5s linear infinite;
+  }
+
+  .bike-moving {
+    animation: bike-move 0.3s ease-in-out infinite;
+  }
+
+  .handlebar-active {
+    animation: handlebar-shake 0.2s ease-in-out infinite;
+  }
+
+  .cyclist-left {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes pedal {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes bike-move {
+  0%,
+  100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes handlebar-shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+/* Asegurar que los estilos se apliquen correctamente */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
