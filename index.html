@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" href="/bike-race-sensor-game/_next/static/media/028c0d39d2e8f589-s.p.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="preload" href="/bike-race-sensor-game/_next/static/media/5b01f339abf2f1a5.p.woff2" as="font" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/bike-race-sensor-game/_next/static/css/6638b8d163e2df94.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="/bike-race-sensor-game/_next/static/chunks/webpack-ed64340f5bcc3fa5.js"/><script src="/bike-race-sensor-game/_next/static/chunks/fd9d1056-3b87a82e0e3cbf80.js" async=""></script><script src="/bike-race-sensor-game/_next/static/chunks/117-0e5551097b34c6e2.js" async=""></script><script src="/bike-race-sensor-game/_next/static/chunks/main-app-027082ae3969ffd7.js" async=""></script><script src="/bike-race-sensor-game/_next/static/chunks/552-ce0fd9c7d79b0ccf.js" async=""></script><script src="/bike-race-sensor-game/_next/static/chunks/app/page-8e07dbf8f72426ba.js" async=""></script><title>v0 App</title><meta name="description" content="Created with v0"/><meta name="generator" content="v0.dev"/><meta name="next-size-adjust"/><style>
+html {
+  font-family: &#x27;__GeistSans_5736e0&#x27;, &#x27;__GeistSans_Fallback_5736e0&#x27;;
+  --font-sans: __variable_5736e0;
+  --font-mono: __variable_8db871;
+}
+        </style><script src="/bike-race-sensor-game/_next/static/chunks/polyfills-42372ed130431b0a.js" noModule=""></script></head><body><div class="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4"><div class="container mx-auto py-8"><div class="max-w-2xl mx-auto text-center space-y-8"><div class="space-y-4"><h1 class="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">🚴‍♂️ Bike Race Sensor Game V11 FINAL</h1><p class="text-lg text-gray-600">Conectá tu NodeMCU con sensor infrarrojo HW-511 (pin D2) para comenzar.</p><div class="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground text-xs bg-green-100 border-green-300">✅ VERSIÓN 11 FINAL - Sin bloqueos - Lectura periódica optimizada</div><div class="text-xs text-green-600 font-mono">ID: bike-race-sensor-game-v11-final | Build: <!-- -->2025-08-01T19:26:50.958Z</div></div><div class="rounded-lg border bg-card text-card-foreground shadow-sm"><div class="p-6 space-y-6"><div class="p-4 rounded-lg border bg-red-50 border-red-200"><div class=""><span class="text-red-800">❌<!-- --> <!-- -->🚀 VERSIÓN 11 FINAL - Verificando compatibilidad...</span></div></div><div class="space-y-4"><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">🔌<!-- --> <!-- -->Conectar NodeMCU V11 FINAL por USB</button></div><div class="text-sm text-gray-500 space-y-2"><p><strong>Estado Actual V11 FINAL:</strong></p><ul class="text-left space-y-1"><li>• ✅ Conexión: <!-- -->No conectado</li><li>• ✅ Envío de comandos: <!-- -->N/A</li><li>• 🔍 Recepción de &quot;click&quot;: <!-- -->Verificar sensor</li><li>• 📡 Sensor HW-511 en D2: Debe enviar &quot;click&quot; al activarse</li></ul></div><div class="space-y-4"><h3 class="font-semibold">Modo de Prueba V11 FINAL</h3><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full bg-transparent">👆 Usar Modo Manual V11 FINAL (Sin Hardware)</button></div></div></div><div class="rounded-lg border bg-card text-card-foreground shadow-sm"><div class="flex flex-col space-y-1.5 p-6"><div class="font-semibold tracking-tight text-lg">🔧 Código NodeMCU Ultra Simple V11 FINAL</div></div><div class="p-6 pt-0"><div class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm font-mono overflow-x-auto"><pre>// Código NodeMCU ULTRA SIMPLE V11 FINAL - Sin bloqueos
+const int sensorPin = D2;
+const int ledPin = LED_BUILTIN;
+
+bool lastState = HIGH;
+unsigned long lastTime = 0;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(sensorPin, INPUT_PULLUP);
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
+  
+  delay(500);
+  Serial.println(&quot;Sistema V11 FINAL listo para detectar sensor&quot;);
+}
+
+void loop() {
+  bool currentState = digitalRead(sensorPin);
+  
+  // Detectar activación
+  if (currentState == LOW &amp;&amp; lastState == HIGH) {
+    if (millis() - lastTime &gt; 200) { // Debounce
+      Serial.println(&quot;click&quot;);
+      
+      // LED rápido
+      digitalWrite(ledPin, LOW);
+      delay(50);
+      digitalWrite(ledPin, HIGH);
+      
+      lastTime = millis();
+    }
+  }
+  
+  lastState = currentState;
+  
+  // Comandos simples
+  if (Serial.available()) {
+    String cmd = Serial.readStringUntil(&#x27;\n&#x27;);
+    cmd.trim();
+    
+    if (cmd == &quot;TEST_SENSOR&quot;) {
+      Serial.println(&quot;click&quot;);
+      digitalWrite(ledPin, LOW);
+      delay(100);
+      digitalWrite(ledPin, HIGH);
+    }
+    else if (cmd == &quot;STATUS&quot;) {
+      Serial.print(&quot;Sensor V11 FINAL: &quot;);
+      Serial.println(digitalRead(sensorPin) ? &quot;HIGH&quot; : &quot;LOW&quot;);
+    }
+  }
+  
+  delay(5); // Muy pequeño delay V11 FINAL
+}</pre></div><p class="text-xs text-gray-500 mt-2">⚠️ IMPORTANTE: Este código V11 FINAL es ultra simple y no debería causar bloqueos</p></div></div></div></div></div><script src="/bike-race-sensor-game/_next/static/chunks/webpack-ed64340f5bcc3fa5.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,"1:HL[\"/bike-race-sensor-game/_next/static/media/028c0d39d2e8f589-s.p.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n2:HL[\"/bike-race-sensor-game/_next/static/media/5b01f339abf2f1a5.p.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n3:HL[\"/bike-race-sensor-game/_next/static/css/6638b8d163e2df94.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"4:I[2846,[],\"\"]\n6:I[9107,[],\"ClientPageRoot\"]\n7:I[5892,[\"552\",\"static/chunks/552-ce0fd9c7d79b0ccf.js\",\"931\",\"static/chunks/app/page-8e07dbf8f72426ba.js\"],\"default\",1]\n8:I[4707,[],\"\"]\n9:I[6423,[],\"\"]\nb:I[1060,[],\"\"]\nc:[]\n"])</script><script>self.__next_f.push([1,"0:[\"$\",\"$L4\",null,{\"buildId\":\"ggNFeGJgmksV2zlch3ABQ\",\"assetPrefix\":\"/bike-race-sensor-game\",\"urlParts\":[\"\",\"\"],\"initialTree\":[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"__PAGE__\",{},[[\"$L5\",[\"$\",\"$L6\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$7\"}],null],null],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/bike-race-sensor-game/_next/static/css/6638b8d163e2df94.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[[\"$\",\"head\",null,{\"children\":[\"$\",\"style\",null,{\"children\":\"\\nhtml {\\n  font-family: '__GeistSans_5736e0', '__GeistSans_Fallback_5736e0';\\n  --font-sans: __variable_5736e0;\\n  --font-mono: __variable_8db871;\\n}\\n        \"}]}],[\"$\",\"body\",null,{\"children\":[\"$\",\"$L8\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L9\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[]}]}]]}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$La\"],\"globalErrorComponent\":\"$b\",\"missingSlots\":\"$Wc\"}]\n"])</script><script>self.__next_f.push([1,"a:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"2\",{\"children\":\"v0 App\"}],[\"$\",\"meta\",\"3\",{\"name\":\"description\",\"content\":\"Created with v0\"}],[\"$\",\"meta\",\"4\",{\"name\":\"generator\",\"content\":\"v0.dev\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\n5:null\n"])</script></body></html>
