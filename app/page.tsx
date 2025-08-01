@@ -24,7 +24,7 @@ interface GameState {
   totalClicks: number
 }
 
-export default function BikeRaceGameV11() {
+export default function BikeRaceGameV11Final() {
   const [currentPage, setCurrentPage] = useState("inicio")
   const [gameState, setGameState] = useState<GameState>({
     nodemcuDetectado: false,
@@ -44,7 +44,7 @@ export default function BikeRaceGameV11() {
   })
 
   const [timeLeft, setTimeLeft] = useState(60)
-  const [connectionStatus, setConnectionStatus] = useState("🚀 Bike Race Game v11 - Verificando compatibilidad...")
+  const [connectionStatus, setConnectionStatus] = useState("🚀 VERSIÓN 11 FINAL - Verificando compatibilidad...")
   const [isConnected, setIsConnected] = useState(false)
   const [isPedaling, setIsPedaling] = useState(false)
   const [isDetecting, setIsDetecting] = useState(false)
@@ -73,7 +73,8 @@ export default function BikeRaceGameV11() {
   // Verificar soporte de Web Serial API y permisos
   useEffect(() => {
     checkSerialSupport()
-    addConnectionLog("🚀 Iniciando Bike Race Game v11")
+    addConnectionLog("🚀 INICIANDO VERSIÓN 11 FINAL - SIN BLOQUEOS")
+    console.log("🚀 BIKE RACE GAME VERSIÓN 11 FINAL CARGADA")
   }, [])
 
   // Efecto para reducir velocidad gradualmente
@@ -99,25 +100,25 @@ export default function BikeRaceGameV11() {
       if (!("serial" in navigator)) {
         setSerialSupported(false)
         setConnectionStatus("❌ Web Serial API no disponible. Usa Chrome/Edge en una ventana normal.")
-        addConnectionLog("Web Serial API no disponible")
+        addConnectionLog("Web Serial API no disponible - V11 FINAL")
         return
       }
 
       if (window.self !== window.top) {
         setPermissionError(true)
         setConnectionStatus("⚠️ Web Serial API bloqueada en iframe. Abre la aplicación en una ventana nueva.")
-        addConnectionLog("Detectado iframe - permisos restringidos")
+        addConnectionLog("Detectado iframe - permisos restringidos - V11 FINAL")
         return
       }
 
       setSerialSupported(true)
-      setConnectionStatus("✅ Web Serial API disponible. Listo para conectar NodeMCU v11.")
-      addConnectionLog("Web Serial API disponible - v11 lista")
+      setConnectionStatus("✅ Web Serial API disponible. Listo para conectar NodeMCU V11 FINAL.")
+      addConnectionLog("Web Serial API disponible - V11 FINAL lista")
     } catch (error) {
-      console.error("Error verificando soporte:", error)
+      console.error("Error verificando soporte V11 FINAL:", error)
       setPermissionError(true)
       setConnectionStatus("❌ Error verificando compatibilidad. Usa modo alternativo.")
-      addConnectionLog(`Error: ${error}`)
+      addConnectionLog(`Error V11 FINAL: ${error}`)
     }
   }
 
@@ -131,19 +132,19 @@ export default function BikeRaceGameV11() {
 
   const connectToNodeMCU = async () => {
     if (!serialSupported || permissionError) {
-      setConnectionStatus("⚠️ Web Serial API no disponible. Usando modo simulado v11.")
-      addConnectionLog("Fallback a modo simulado v11")
+      setConnectionStatus("⚠️ Web Serial API no disponible. Usando modo simulado V11 FINAL.")
+      addConnectionLog("Fallback a modo simulado V11 FINAL")
       startSimulatedConnection()
       return
     }
 
     setIsDetecting(true)
-    setConnectionStatus("🔌 Selecciona el puerto del NodeMCU en el diálogo... (v11)")
-    addConnectionLog("Solicitando puerto serie v11...")
+    setConnectionStatus("🔌 Selecciona el puerto del NodeMCU en el diálogo... (V11 FINAL)")
+    addConnectionLog("Solicitando puerto serie V11 FINAL...")
 
     try {
       const port = await (navigator as any).serial.requestPort()
-      addConnectionLog("Puerto seleccionado v11, abriendo conexión...")
+      addConnectionLog("Puerto seleccionado V11 FINAL, abriendo conexión...")
 
       await port.open({
         baudRate: 115200,
@@ -153,12 +154,12 @@ export default function BikeRaceGameV11() {
         flowControl: "none",
       })
 
-      addConnectionLog("✅ Puerto abierto exitosamente v11")
+      addConnectionLog("✅ Puerto abierto exitosamente V11 FINAL")
       serialPortRef.current = port
       setIsConnected(true)
       setGameState((prev) => ({ ...prev, nodemcuDetectado: true, connectionMethod: "usb" }))
       setIsDetecting(false)
-      setConnectionStatus("🎉 ¡NodeMCU v11 conectado! Configurando comunicación...")
+      setConnectionStatus("🎉 ¡NodeMCU V11 FINAL conectado! Configurando comunicación...")
 
       // Configurar writer
       const textEncoder = new TextEncoderStream()
@@ -173,11 +174,11 @@ export default function BikeRaceGameV11() {
       setTimeout(async () => {
         try {
           await writer.write("INIT\n")
-          addConnectionLog("Comando INIT v11 enviado")
-          setConnectionStatus("🚀 ¡NodeMCU v11 listo! Esperando datos del sensor...")
-          setSensorStatus("Sensor v11 listo")
+          addConnectionLog("Comando INIT V11 FINAL enviado")
+          setConnectionStatus("🚀 ¡NodeMCU V11 FINAL listo! Esperando datos del sensor...")
+          setSensorStatus("Sensor V11 FINAL listo")
         } catch (e) {
-          addConnectionLog("Error enviando INIT v11")
+          addConnectionLog("Error enviando INIT V11 FINAL")
         }
       }, 1000)
 
@@ -186,13 +187,13 @@ export default function BikeRaceGameV11() {
         setCurrentPage("seleccionModo")
       }, 3000)
     } catch (error: any) {
-      console.error("Error conectando v11:", error)
-      addConnectionLog(`Error v11: ${error.message}`)
+      console.error("Error conectando V11 FINAL:", error)
+      addConnectionLog(`Error V11 FINAL: ${error.message}`)
 
       if (error.name === "NotFoundError") {
-        setConnectionStatus("❌ No se seleccionó ningún dispositivo v11.")
+        setConnectionStatus("❌ No se seleccionó ningún dispositivo V11 FINAL.")
       } else {
-        setConnectionStatus(`❌ Error de conexión v11. Usando modo simulado.`)
+        setConnectionStatus(`❌ Error de conexión V11 FINAL. Usando modo simulado.`)
         setTimeout(() => {
           startSimulatedConnection()
         }, 2000)
@@ -202,10 +203,10 @@ export default function BikeRaceGameV11() {
     }
   }
 
-  // LECTURA PERIÓDICA NO BLOQUEANTE V11
+  // LECTURA PERIÓDICA NO BLOQUEANTE V11 FINAL
   const startPeriodicReading = (port: any) => {
-    addConnectionLog("🔍 Iniciando lectura periódica v11...")
-    setSensorStatus("Escuchando sensor v11...")
+    addConnectionLog("🔍 Iniciando lectura periódica V11 FINAL...")
+    setSensorStatus("Escuchando sensor V11 FINAL...")
 
     let buffer = ""
 
@@ -224,7 +225,7 @@ export default function BikeRaceGameV11() {
           ])
 
           if (done) {
-            addConnectionLog("Lectura v11 terminada")
+            addConnectionLog("Lectura V11 FINAL terminada")
             return
           }
 
@@ -248,8 +249,8 @@ export default function BikeRaceGameV11() {
         }
       } catch (error: any) {
         if (error.message !== "timeout") {
-          console.error("Error leyendo v11:", error)
-          addConnectionLog(`Error leyendo v11: ${error.message}`)
+          console.error("Error leyendo V11 FINAL:", error)
+          addConnectionLog(`Error leyendo V11 FINAL: ${error.message}`)
         }
       }
     }
@@ -261,32 +262,32 @@ export default function BikeRaceGameV11() {
   const processSerialData = (data: string) => {
     setRawSerialData((prev) => [...prev.slice(-9), data])
     setSensorData(data)
-    addConnectionLog(`📡 v11 Recibido: "${data}"`)
+    addConnectionLog(`📡 V11 FINAL Recibido: "${data}"`)
 
     const lowerData = data.toLowerCase()
 
     if (lowerData === "click" || lowerData === "sensor_activated" || data === "1") {
-      addConnectionLog("🚴‍♂️ ¡SENSOR FÍSICO v11 ACTIVADO!")
-      setSensorStatus("¡Sensor v11 activado!")
+      addConnectionLog("🚴‍♂️ ¡SENSOR FÍSICO V11 FINAL ACTIVADO!")
+      setSensorStatus("¡Sensor V11 FINAL activado!")
       setLastClickTime(new Date().toLocaleTimeString())
       setLedStatus(true)
       setTimeout(() => {
         setLedStatus(false)
-        setSensorStatus("Esperando sensor v11...")
+        setSensorStatus("Esperando sensor V11 FINAL...")
       }, 300)
       handleSensorActivation()
     } else if (lowerData.includes("listo") || lowerData.includes("ready") || lowerData.includes("inicializado")) {
-      addConnectionLog("✅ NodeMCU v11 inicializado correctamente")
-      setConnectionStatus("🎉 ¡NodeMCU v11 listo! Sensor HW-511 funcionando.")
-      setSensorStatus("Sensor v11 listo")
+      addConnectionLog("✅ NodeMCU V11 FINAL inicializado correctamente")
+      setConnectionStatus("🎉 ¡NodeMCU V11 FINAL listo! Sensor HW-511 funcionando.")
+      setSensorStatus("Sensor V11 FINAL listo")
     } else if (lowerData.includes("led_on")) {
       setLedStatus(true)
-      addConnectionLog("💡 LED v11 encendido")
+      addConnectionLog("💡 LED V11 FINAL encendido")
     } else if (lowerData.includes("led_off")) {
       setLedStatus(false)
-      addConnectionLog("💡 LED v11 apagado")
+      addConnectionLog("💡 LED V11 FINAL apagado")
     } else if (lowerData.includes("prueba") || lowerData.includes("test")) {
-      addConnectionLog("🧪 Comando de prueba v11 recibido por NodeMCU")
+      addConnectionLog("🧪 Comando de prueba V11 FINAL recibido por NodeMCU")
     }
   }
 
@@ -294,7 +295,7 @@ export default function BikeRaceGameV11() {
     const currentTime = Date.now()
     const timeDiff = currentTime - gameState.lastSensorTime
 
-    addConnectionLog(`⚡ v11 PROCESANDO CLICK - Intervalo: ${timeDiff}ms`)
+    addConnectionLog(`⚡ V11 FINAL PROCESANDO CLICK - Intervalo: ${timeDiff}ms`)
 
     // Activar animación de pedaleo
     setIsPedaling(true)
@@ -317,10 +318,10 @@ export default function BikeRaceGameV11() {
         newClickCount = prev.clickCount + 1
 
         addConnectionLog(
-          `🏃‍♂️ v11 JUEGO ACTIVO - Velocidad: ${Math.round(newVelocidad)}km/h | Distancia: +${Math.round(distanceIncrement)}m | Total: ${Math.round(newDistancia)}m`,
+          `🏃‍♂️ V11 FINAL JUEGO ACTIVO - Velocidad: ${Math.round(newVelocidad)}km/h | Distancia: +${Math.round(distanceIncrement)}m | Total: ${Math.round(newDistancia)}m`,
         )
       } else {
-        addConnectionLog(`📊 v11 Click registrado (juego no activo) - Total clicks: ${newTotalClicks}`)
+        addConnectionLog(`📊 V11 FINAL Click registrado (juego no activo) - Total clicks: ${newTotalClicks}`)
       }
 
       return {
@@ -338,10 +339,10 @@ export default function BikeRaceGameV11() {
     if (writerRef.current) {
       try {
         await writerRef.current.write("TEST_SENSOR\n")
-        addConnectionLog("🧪 v11 Comando de prueba del sensor enviado")
-        setSensorStatus("Enviando prueba v11...")
+        addConnectionLog("🧪 V11 FINAL Comando de prueba del sensor enviado")
+        setSensorStatus("Enviando prueba V11 FINAL...")
       } catch (error) {
-        addConnectionLog("❌ v11 Error enviando comando de prueba")
+        addConnectionLog("❌ V11 FINAL Error enviando comando de prueba")
       }
     }
   }
@@ -350,18 +351,18 @@ export default function BikeRaceGameV11() {
     if (writerRef.current) {
       try {
         await writerRef.current.write("STATUS\n")
-        addConnectionLog("📊 v11 Solicitando estado del sensor")
+        addConnectionLog("📊 V11 FINAL Solicitando estado del sensor")
       } catch (error) {
-        addConnectionLog("❌ v11 Error solicitando estado")
+        addConnectionLog("❌ V11 FINAL Error solicitando estado")
       }
     }
   }
 
   const startSimulatedConnection = () => {
-    setConnectionStatus("🎮 Modo simulado v11 activado - Sensor virtual conectado")
+    setConnectionStatus("🎮 Modo simulado V11 FINAL activado - Sensor virtual conectado")
     setIsConnected(true)
     setGameState((prev) => ({ ...prev, nodemcuDetectado: true, connectionMethod: "simulated" }))
-    addConnectionLog("Modo simulado v11 iniciado")
+    addConnectionLog("Modo simulado V11 FINAL iniciado")
 
     setTimeout(() => {
       setCurrentPage("seleccionModo")
@@ -373,29 +374,29 @@ export default function BikeRaceGameV11() {
       // Limpiar interval de lectura
       if (readingIntervalRef.current) {
         clearInterval(readingIntervalRef.current)
-        addConnectionLog("v11 Interval de lectura detenido")
+        addConnectionLog("V11 FINAL Interval de lectura detenido")
       }
 
       if (writerRef.current) {
         await writerRef.current.close()
-        addConnectionLog("v11 Writer cerrado")
+        addConnectionLog("V11 FINAL Writer cerrado")
       }
 
       if (serialPortRef.current) {
         await serialPortRef.current.close()
-        addConnectionLog("v11 Puerto serie cerrado")
+        addConnectionLog("V11 FINAL Puerto serie cerrado")
       }
 
       setIsConnected(false)
-      setConnectionStatus("🔌 NodeMCU v11 desconectado")
+      setConnectionStatus("🔌 NodeMCU V11 FINAL desconectado")
       setGameState((prev) => ({ ...prev, nodemcuDetectado: false }))
       setRawSerialData([])
       setSensorData("")
       setLedStatus(false)
-      setSensorStatus("v11 Desconectado")
+      setSensorStatus("V11 FINAL Desconectado")
     } catch (error) {
-      console.error("Error desconectando v11:", error)
-      addConnectionLog(`v11 Error desconectando: ${error}`)
+      console.error("Error desconectando V11 FINAL:", error)
+      addConnectionLog(`V11 FINAL Error desconectando: ${error}`)
     }
   }
 
@@ -412,8 +413,8 @@ export default function BikeRaceGameV11() {
     }))
     setTimeLeft(60)
     setCurrentPage(isMultiplayer ? "juegoMultijugador" : "juegoUnJugador")
-    addConnectionLog(`🎮 v11 JUEGO INICIADO - Modo: ${isMultiplayer ? "Multijugador" : "Individual"}`)
-    addConnectionLog(`🔥 v11 ¡Activa el sensor físico para hacer avanzar la bici!`)
+    addConnectionLog(`🎮 V11 FINAL JUEGO INICIADO - Modo: ${isMultiplayer ? "Multijugador" : "Individual"}`)
+    addConnectionLog(`🔥 V11 FINAL ¡Activa el sensor físico para hacer avanzar la bici!`)
 
     gameTimerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -444,7 +445,7 @@ export default function BikeRaceGameV11() {
     setGameState((prev) => ({ ...prev, gameActive: false }))
     if (gameTimerRef.current) clearInterval(gameTimerRef.current)
     if (rivalTimerRef.current) clearInterval(rivalTimerRef.current)
-    addConnectionLog("🏁 v11 Juego terminado")
+    addConnectionLog("🏁 V11 FINAL Juego terminado")
 
     setGameState((prev) => ({
       ...prev,
@@ -456,7 +457,7 @@ export default function BikeRaceGameV11() {
   }
 
   const handleManualPedal = () => {
-    addConnectionLog("👆 v11 Click manual procesado")
+    addConnectionLog("👆 V11 FINAL Click manual procesado")
     handleSensorActivation()
   }
 
@@ -471,12 +472,15 @@ export default function BikeRaceGameV11() {
     <div className="max-w-2xl mx-auto text-center space-y-8">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold text-gray-800 flex items-center justify-center gap-3">
-          🚴‍♂️ Bike Race Sensor Game v11
+          🚴‍♂️ Bike Race Sensor Game V11 FINAL
         </h1>
         <p className="text-lg text-gray-600">Conectá tu NodeMCU con sensor infrarrojo HW-511 (pin D2) para comenzar.</p>
-        <Badge variant="outline" className="text-xs">
-          Versión 11 - Sin bloqueos - Lectura periódica optimizada
+        <Badge variant="outline" className="text-xs bg-green-100 border-green-300">
+          ✅ VERSIÓN 11 FINAL - Sin bloqueos - Lectura periódica optimizada
         </Badge>
+        <div className="text-xs text-green-600 font-mono">
+          ID: bike-race-sensor-game-v11-final | Build: {new Date().toISOString()}
+        </div>
       </div>
 
       {permissionError && (
@@ -528,7 +532,7 @@ export default function BikeRaceGameV11() {
               >
                 <div className="text-center">
                   <div className="text-2xl mb-1">🔍</div>
-                  <div className="text-sm font-medium">Estado Sensor v11</div>
+                  <div className="text-sm font-medium">Estado Sensor V11 FINAL</div>
                   <div className="text-xs">{sensorStatus}</div>
                 </div>
               </div>
@@ -539,7 +543,7 @@ export default function BikeRaceGameV11() {
                   <div
                     className={`w-4 h-4 rounded-full mx-auto mb-1 ${ledStatus ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}
                   ></div>
-                  <div className="text-sm font-medium">LED NodeMCU v11</div>
+                  <div className="text-sm font-medium">LED NodeMCU V11 FINAL</div>
                   <div className="text-xs">{ledStatus ? "🟢 ON" : "⚫ OFF"}</div>
                 </div>
               </div>
@@ -551,7 +555,7 @@ export default function BikeRaceGameV11() {
             <div className="p-4 bg-blue-100 rounded-lg">
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-800 mb-1">{gameState.totalClicks}</div>
-                <div className="text-sm text-blue-600">Total Clicks Detectados v11</div>
+                <div className="text-sm text-blue-600">Total Clicks Detectados V11 FINAL</div>
                 {lastClickTime && <div className="text-xs text-blue-500">Último: {lastClickTime}</div>}
               </div>
             </div>
@@ -560,7 +564,7 @@ export default function BikeRaceGameV11() {
           {/* Mostrar datos del sensor en tiempo real */}
           {sensorData && (
             <div className="p-3 bg-gray-100 rounded-lg">
-              <p className="text-sm text-gray-600">Último dato del sensor v11:</p>
+              <p className="text-sm text-gray-600">Último dato del sensor V11 FINAL:</p>
               <code
                 className={`text-sm font-mono font-bold ${sensorData.toLowerCase() === "click" ? "text-green-600 animate-pulse" : "text-gray-600"}`}
               >
@@ -572,7 +576,7 @@ export default function BikeRaceGameV11() {
           {/* Log de datos serie raw */}
           {rawSerialData.length > 0 && (
             <div className="p-3 bg-gray-50 rounded-lg max-h-32 overflow-y-auto">
-              <p className="text-xs text-gray-500 mb-2">Datos serie v11 recibidos:</p>
+              <p className="text-xs text-gray-500 mb-2">Datos serie V11 FINAL recibidos:</p>
               {rawSerialData.map((data, index) => (
                 <div key={index} className="text-xs font-mono">
                   <span className="text-gray-400">{index + 1}:</span>{" "}
@@ -588,22 +592,22 @@ export default function BikeRaceGameV11() {
             <Button onClick={connectToNodeMCU} className="w-full" disabled={isDetecting || isConnected}>
               🔌{" "}
               {isDetecting
-                ? "Conectando v11..."
+                ? "Conectando V11 FINAL..."
                 : isConnected
-                  ? "NodeMCU v11 Conectado"
-                  : "Conectar NodeMCU v11 por USB"}
+                  ? "NodeMCU V11 FINAL Conectado"
+                  : "Conectar NodeMCU V11 FINAL por USB"}
             </Button>
 
             {isConnected && gameState.connectionMethod === "usb" && (
               <div className="grid grid-cols-3 gap-2">
                 <Button onClick={testSensor} variant="outline" size="sm">
-                  🧪 Probar v11
+                  🧪 Probar V11 FINAL
                 </Button>
                 <Button onClick={requestSensorStatus} variant="outline" size="sm">
-                  📊 Estado v11
+                  📊 Estado V11 FINAL
                 </Button>
                 <Button onClick={disconnectNodeMCU} variant="outline" size="sm">
-                  🔌 Desconectar v11
+                  🔌 Desconectar V11 FINAL
                 </Button>
               </div>
             )}
@@ -612,7 +616,7 @@ export default function BikeRaceGameV11() {
           {/* Log de conexión */}
           {connectionLog.length > 0 && (
             <div className="p-3 bg-blue-50 rounded-lg max-h-40 overflow-y-auto">
-              <p className="text-xs text-blue-600 mb-2">Log de conexión v11:</p>
+              <p className="text-xs text-blue-600 mb-2">Log de conexión V11 FINAL:</p>
               {connectionLog.map((log, index) => (
                 <div key={index} className="text-xs text-blue-800 mb-1">
                   {log}
@@ -623,43 +627,43 @@ export default function BikeRaceGameV11() {
 
           <div className="text-sm text-gray-500 space-y-2">
             <p>
-              <strong>Estado Actual v11:</strong>
+              <strong>Estado Actual V11 FINAL:</strong>
             </p>
             <ul className="text-left space-y-1">
-              <li>• ✅ Conexión: {isConnected ? "OK - Lectura periódica v11 activa" : "No conectado"}</li>
-              <li>• ✅ Envío de comandos: {isConnected ? "Funciona (botón Probar v11)" : "N/A"}</li>
-              <li>• 🔍 Recepción de "click": {gameState.totalClicks > 0 ? "OK v11" : "Verificar sensor"}</li>
+              <li>• ✅ Conexión: {isConnected ? "OK - Lectura periódica V11 FINAL activa" : "No conectado"}</li>
+              <li>• ✅ Envío de comandos: {isConnected ? "Funciona (botón Probar V11 FINAL)" : "N/A"}</li>
+              <li>• 🔍 Recepción de "click": {gameState.totalClicks > 0 ? "OK V11 FINAL" : "Verificar sensor"}</li>
               <li>• 📡 Sensor HW-511 en D2: Debe enviar "click" al activarse</li>
             </ul>
           </div>
 
           <div className="space-y-4">
-            <h3 className="font-semibold">Modo de Prueba v11</h3>
+            <h3 className="font-semibold">Modo de Prueba V11 FINAL</h3>
             <Button
               variant="outline"
               onClick={() => {
                 setGameState((prev) => ({ ...prev, nodemcuDetectado: true, connectionMethod: "manual" }))
-                setConnectionStatus("Modo manual v11 activado")
+                setConnectionStatus("Modo manual V11 FINAL activado")
                 setIsConnected(true)
-                addConnectionLog("Modo manual v11 iniciado")
+                addConnectionLog("Modo manual V11 FINAL iniciado")
                 setTimeout(() => setCurrentPage("seleccionModo"), 1000)
               }}
               className="w-full bg-transparent"
             >
-              👆 Usar Modo Manual v11 (Sin Hardware)
+              👆 Usar Modo Manual V11 FINAL (Sin Hardware)
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Código NodeMCU ultra simple v11 */}
+      {/* Código NodeMCU ultra simple V11 FINAL */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">🔧 Código NodeMCU Ultra Simple v11</CardTitle>
+          <CardTitle className="text-lg">🔧 Código NodeMCU Ultra Simple V11 FINAL</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="bg-gray-900 text-green-400 p-4 rounded-lg text-sm font-mono overflow-x-auto">
-            <pre>{`// Código NodeMCU ULTRA SIMPLE v11 - Sin bloqueos
+            <pre>{`// Código NodeMCU ULTRA SIMPLE V11 FINAL - Sin bloqueos
 const int sensorPin = D2;
 const int ledPin = LED_BUILTIN;
 
@@ -673,7 +677,7 @@ void setup() {
   digitalWrite(ledPin, HIGH);
   
   delay(500);
-  Serial.println("Sistema v11 listo para detectar sensor");
+  Serial.println("Sistema V11 FINAL listo para detectar sensor");
 }
 
 void loop() {
@@ -707,16 +711,16 @@ void loop() {
       digitalWrite(ledPin, HIGH);
     }
     else if (cmd == "STATUS") {
-      Serial.print("Sensor v11: ");
+      Serial.print("Sensor V11 FINAL: ");
       Serial.println(digitalRead(sensorPin) ? "HIGH" : "LOW");
     }
   }
   
-  delay(5); // Muy pequeño delay v11
+  delay(5); // Muy pequeño delay V11 FINAL
 }`}</pre>
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            ⚠️ IMPORTANTE: Este código v11 es ultra simple y no debería causar bloqueos
+            ⚠️ IMPORTANTE: Este código V11 FINAL es ultra simple y no debería causar bloqueos
           </p>
         </CardContent>
       </Card>
@@ -725,331 +729,118 @@ void loop() {
 
   const renderSeleccionModo = () => (
     <div className="max-w-2xl mx-auto text-center space-y-8">
-      <h1 className="text-3xl font-bold text-gray-800">Seleccioná el modo de juego v11</h1>
-
-      <div className="mb-4 space-y-2">
-        <Badge variant="outline" className="p-2">
-          Conectado v11 via {gameState.connectionMethod === "usb" ? "USB Real" : "Modo Manual"}
-        </Badge>
-        {gameState.totalClicks > 0 && (
-          <div className="text-sm text-blue-600">🎯 Total clicks v11 detectados: {gameState.totalClicks}</div>
-        )}
-        {gameState.connectionMethod === "usb" && (
-          <div className="flex items-center justify-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${ledStatus ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}></div>
-              <span className="text-sm">LED v11: {ledStatus ? "ON" : "OFF"}</span>
-            </div>
-            <div className="text-sm text-gray-600">Sensor v11: {sensorStatus}</div>
-          </div>
-        )}
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => startGame(false)}>
-          <CardHeader className="text-center">
-            <div className="text-6xl mb-4">👤</div>
-            <CardTitle>Jugador Individual v11</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">
-              {gameState.connectionMethod === "usb"
-                ? "Activa el sensor HW-511 v11 para pedalear"
-                : "Haz clic v11 para pedalear"}
-            </p>
-            <p className="text-xs text-gray-500">Cada activación v11 suma 3+ metros</p>
-            <Button className="w-full">Comenzar Solo v11</Button>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => startGame(true)}>
-          <CardHeader className="text-center">
-            <div className="text-6xl mb-4">👥</div>
-            <CardTitle>Multijugador v11</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">Competí contra un rival IA v11 en tiempo real</p>
-            <p className="text-xs text-gray-500">¡Pedaleá más rápido v11 para ganar!</p>
-            <Button className="w-full" variant="secondary">
-              Competir v11
-            </Button>
-          </CardContent>
-        </Card>
+      <h2 className="text-2xl font-bold text-gray-800">Selecciona el modo de juego</h2>
+      <div className="grid grid-cols-2 gap-4">
+        <Button onClick={() => startGame(false)} className="w-full">
+          🏃‍♂️ Juego Individual
+        </Button>
+        <Button onClick={() => startGame(true)} className="w-full">
+          🏃‍♂️ Juego Multijugador
+        </Button>
       </div>
     </div>
   )
 
   const renderJuegoUnJugador = () => (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold text-gray-800">Modo Individual v11</h1>
-        <p className="text-lg text-gray-600">
-          {gameState.connectionMethod === "usb"
-            ? "¡Activa el sensor HW-511 v11 físico para hacer circular la bici!"
-            : "¡Haz clic v11 para pedalear!"}
-        </p>
-        <div className="flex items-center justify-center gap-4">
-          <Badge variant="outline">
-            {gameState.connectionMethod === "usb" ? "Sensor HW-511 v11 Activo" : "Modo Manual v11"}
-          </Badge>
-          {gameState.connectionMethod === "usb" && (
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${ledStatus ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}></div>
-              <span className="text-xs">LED v11: {ledStatus ? "ON" : "OFF"}</span>
-            </div>
-          )}
+    <div className="max-w-2xl mx-auto text-center space-y-8">
+      <h2 className="text-2xl font-bold text-gray-800">Juego Individual V11 FINAL</h2>
+      <div className="space-y-4">
+        <div className="p-4 rounded-lg border bg-blue-100">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-blue-800 mb-1">{Math.round(gameState.distancia)}m</div>
+            <div className="text-sm text-blue-600">Distancia Recorrida</div>
+          </div>
         </div>
+        <div className="p-4 rounded-lg border bg-green-100">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-green-800 mb-1">{Math.round(gameState.velocidad)}km/h</div>
+            <div className="text-sm text-green-600">Velocidad Actual</div>
+          </div>
+        </div>
+        <Progress value={(gameState.distancia / 1000) * 100} className="w-full">
+          {Math.round((gameState.distancia / 1000) * 100)}%
+        </Progress>
+        <div className="text-sm text-gray-500 space-y-2">
+          <p>
+            <strong>Estado Actual V11 FINAL:</strong>
+          </p>
+          <ul className="text-left space-y-1">
+            <li>• 🏃‍♂️ Juego Activo: {gameState.gameActive ? "Sí" : "No"}</li>
+            <li>• ⏳ Tiempo Restante: {timeLeft}s</li>
+          </ul>
+        </div>
+        <Button onClick={handleManualPedal} className="w-full bg-transparent">
+          👆 Pedalear Manualmente V11 FINAL
+        </Button>
       </div>
-
-      <Card>
-        <CardContent className="p-8 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <div className="text-4xl font-bold text-red-600 mb-2">{timeLeft}</div>
-              <p className="text-gray-600">Segundos</p>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">{Math.round(gameState.velocidad)}</div>
-              <p className="text-gray-600">km/h</p>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-green-600 mb-2">{Math.round(gameState.distancia)}</div>
-              <p className="text-gray-600">metros</p>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-purple-600 mb-2">{gameState.clickCount}</div>
-              <p className="text-gray-600">Clicks v11</p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <Progress value={Math.min(100, (gameState.velocidad / 50) * 100)} className="h-4" />
-            <p className="text-center text-sm text-gray-600">
-              🎮 JUEGO v11 ACTIVO - Activa el sensor físico para avanzar | Clicks: {gameState.clickCount} | Total:{" "}
-              {gameState.totalClicks}
-            </p>
-          </div>
-
-          <div className="text-center space-y-4">
-            <div
-              className={`inline-block text-8xl cursor-pointer select-none hover:scale-110 transition-transform ${
-                isPedaling ? "animate-bounce scale-110" : ""
-              }`}
-              onClick={gameState.connectionMethod === "manual" ? handleManualPedal : undefined}
-              style={{
-                filter: isPedaling ? "drop-shadow(0 0 20px #3b82f6)" : "none",
-                transform: isPedaling ? "scale(1.1)" : "scale(1)",
-              }}
-            >
-              🚴‍♂️
-            </div>
-            <div className={`text-4xl ${isPedaling ? "animate-spin" : ""}`}>⚙️</div>
-            <p className="text-gray-600">
-              {gameState.connectionMethod === "usb"
-                ? "🔥 ¡Activa el sensor infrarrojo HW-511 v11 en pin D2!"
-                : "Haz clic v11 en la bicicleta para pedalear"}
-            </p>
-            <p className="text-sm text-blue-600">Cada activación v11 suma 3+ metros (más bonus por velocidad)</p>
-
-            {/* Estado del sensor durante el juego */}
-            {gameState.connectionMethod === "usb" && (
-              <div className="mt-4 p-3 bg-blue-100 rounded text-sm">
-                <strong>Estado del sensor v11:</strong> {sensorStatus}
-                {lastClickTime && <div className="text-xs">Último click v11: {lastClickTime}</div>}
-              </div>
-            )}
-
-            {gameState.connectionMethod === "usb" && (
-              <div className="grid grid-cols-2 gap-2">
-                <Button onClick={testSensor} variant="outline" size="sm">
-                  🧪 Probar Sensor v11
-                </Button>
-                <Button onClick={requestSensorStatus} variant="outline" size="sm">
-                  📊 Estado Sensor v11
-                </Button>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 
   const renderJuegoMultijugador = () => (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold text-gray-800">Modo Competencia v11</h1>
-        <p className="text-lg text-gray-600">
-          {gameState.connectionMethod === "usb"
-            ? "¡Activa el sensor HW-511 v11 para ganar!"
-            : "¡Haz clic v11 para ganar!"}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center text-blue-600">Tu Progreso v11 (Derecha)</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-blue-600">{Math.round(gameState.velocidad)} km/h</div>
-              <div className="text-2xl font-semibold text-green-600">{Math.round(gameState.distancia)} m</div>
-            </div>
-            <div
-              className={`text-6xl ${isPedaling ? "animate-bounce" : ""}`}
-              style={{
-                filter: isPedaling ? "drop-shadow(0 0 15px #3b82f6)" : "none",
-                transform: isPedaling ? "scale(1.1)" : "scale(1)",
-              }}
-            >
-              🚴‍♂️
-            </div>
-            <Badge variant="outline">Clicks v11: {gameState.clickCount}</Badge>
-            {gameState.connectionMethod === "usb" && (
-              <div className="flex items-center justify-center gap-2">
-                <div
-                  className={`w-2 h-2 rounded-full ${ledStatus ? "bg-green-500 animate-pulse" : "bg-gray-400"}`}
-                ></div>
-                <span className="text-xs">LED v11: {ledStatus ? "ON" : "OFF"}</span>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center text-red-600">Rival IA v11 (Izquierda)</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-red-600">{Math.round(gameState.rivalVelocidad)} km/h</div>
-              <div className="text-2xl font-semibold text-green-600">{Math.round(gameState.distanciaRival)} m</div>
-            </div>
-            <div className={`text-6xl transform scale-x-[-1] ${gameState.rivalVelocidad > 10 ? "animate-bounce" : ""}`}>
-              🚴‍♂️
-            </div>
-            <Badge variant="outline">IA Inteligente v11</Badge>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardContent className="p-8 space-y-6">
+    <div className="max-w-2xl mx-auto text-center space-y-8">
+      <h2 className="text-2xl font-bold text-gray-800">Juego Multijugador V11 FINAL</h2>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="p-4 rounded-lg border bg-blue-100">
           <div className="text-center">
-            <div className="text-5xl font-bold text-red-600 mb-2">{timeLeft}</div>
-            <p className="text-gray-600">Segundos restantes v11</p>
-            <p className="text-sm text-blue-600 mt-2">🔥 ¡Activa el sensor físico v11 para avanzar!</p>
+            <div className="text-3xl font-bold text-blue-800 mb-1">{Math.round(gameState.distancia)}m</div>
+            <div className="text-sm text-blue-600">Tu Distancia</div>
           </div>
-
-          <div className="text-center space-y-4">
-            <div
-              className={`inline-block text-8xl cursor-pointer select-none hover:scale-110 transition-transform ${
-                isPedaling ? "animate-bounce scale-110" : ""
-              }`}
-              onClick={gameState.connectionMethod === "manual" ? handleManualPedal : undefined}
-              style={{
-                filter: isPedaling ? "drop-shadow(0 0 20px #3b82f6)" : "none",
-              }}
-            >
-              🚴‍♂️
-            </div>
-            <div className={`text-4xl ${isPedaling ? "animate-spin" : ""}`}>⚙️</div>
-
-            {gameState.connectionMethod === "usb" && (
-              <div className="grid grid-cols-2 gap-2">
-                <Button onClick={testSensor} variant="outline" size="sm">
-                  🧪 Probar Sensor v11
-                </Button>
-                <Button onClick={requestSensorStatus} variant="outline" size="sm">
-                  📊 Estado Sensor v11
-                </Button>
-              </div>
-            )}
+        </div>
+        <div className="p-4 rounded-lg border bg-red-100">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-red-800 mb-1">{Math.round(gameState.distanciaRival)}m</div>
+            <div className="text-sm text-red-600">Distancia Rival</div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+      <Progress value={(gameState.distancia / 1000) * 100} className="w-full">
+        {Math.round((gameState.distancia / 1000) * 100)}%
+      </Progress>
+      <div className="text-sm text-gray-500 space-y-2">
+        <p>
+          <strong>Estado Actual V11 FINAL:</strong>
+        </p>
+        <ul className="text-left space-y-1">
+          <li>• 🏃‍♂️ Juego Activo: {gameState.gameActive ? "Sí" : "No"}</li>
+          <li>• ⏳ Tiempo Restante: {timeLeft}s</li>
+        </ul>
+      </div>
+      <Button onClick={handleManualPedal} className="w-full bg-transparent">
+        👆 Pedalear Manualmente V11 FINAL
+      </Button>
     </div>
   )
 
-  const renderResultados = () => {
-    const ganaste = gameState.isMultiplayer ? gameState.distancia > gameState.distanciaRival : true
-    const empate = gameState.isMultiplayer ? Math.abs(gameState.distancia - gameState.distanciaRival) < 1 : false
-
-    return (
-      <div className="max-w-2xl mx-auto text-center space-y-8">
-        <h1 className="text-4xl font-bold text-gray-800">¡Fin del Juego v11!</h1>
-
-        <Card>
-          <CardContent className="p-8 space-y-6">
-            <div className="text-6xl mb-6">
-              {gameState.isMultiplayer ? (ganaste ? "🏆" : empate ? "🤝" : "🥈") : "🏁"}
+  const renderResultados = () => (
+    <div className="max-w-2xl mx-auto text-center space-y-8">
+      <h2 className="text-2xl font-bold text-gray-800">Resultados V11 FINAL</h2>
+      <div className="space-y-4">
+        <div className="p-4 rounded-lg border bg-blue-100">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-blue-800 mb-1">{Math.round(gameState.distanciaFinal)}m</div>
+            <div className="text-sm text-blue-600">Distancia Final</div>
+          </div>
+        </div>
+        <div className="p-4 rounded-lg border bg-green-100">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-green-800 mb-1">{Math.round(gameState.velocidadMedia)}km/h</div>
+            <div className="text-sm text-green-600">Velocidad Media</div>
+          </div>
+        </div>
+        {gameState.isMultiplayer && (
+          <div className="p-4 rounded-lg border bg-red-100">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-red-800 mb-1">{Math.round(gameState.distanciaRival)}m</div>
+              <div className="text-sm text-red-600">Distancia Rival</div>
             </div>
-
-            <h2 className="text-2xl font-semibold mb-6">
-              {gameState.isMultiplayer
-                ? ganaste
-                  ? "¡Ganaste v11!"
-                  : empate
-                    ? "¡Empate v11!"
-                    : "Perdiste v11"
-                : "Tu rendimiento v11:"}
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">{gameState.distanciaFinal} m</div>
-                <p className="text-gray-600">Distancia Final v11</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">{gameState.velocidadMedia} km/h</div>
-                <p className="text-gray-600">Velocidad Media v11</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">{gameState.clickCount}</div>
-                <p className="text-gray-600">
-                  {gameState.connectionMethod === "usb" ? "Activaciones del Sensor v11" : "Clicks Manuales v11"}
-                </p>
-              </div>
-            </div>
-
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-800 mb-2">{gameState.totalClicks}</div>
-              <p className="text-blue-600">Total de clicks v11 detectados en toda la sesión</p>
-            </div>
-
-            {gameState.isMultiplayer && (
-              <div className="space-y-4 pt-4 border-t">
-                <h3 className="text-xl font-semibold">Resultado de la Competencia v11</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <Badge variant="outline" className="p-2">
-                    Tú v11: {Math.round(gameState.distancia)}m
-                  </Badge>
-                  <Badge variant="outline" className="p-2">
-                    Rival v11: {Math.round(gameState.distanciaRival)}m
-                  </Badge>
-                </div>
-              </div>
-            )}
-
-            <Button
-              onClick={() => {
-                setCurrentPage("inicio")
-                setGameState((prev) => ({ ...prev, nodemcuDetectado: false, gameActive: false }))
-                if (!isConnected) {
-                  setConnectionStatus("🚀 Bike Race Game v11 - Verificando compatibilidad...")
-                  checkSerialSupport()
-                }
-              }}
-              className="w-full"
-            >
-              🏠 Volver al Inicio v11
-            </Button>
-          </CardContent>
-        </Card>
+          </div>
+        )}
       </div>
-    )
-  }
+      <Button onClick={() => setCurrentPage("inicio")} className="w-full bg-transparent">
+        🔄 Volver al Inicio
+      </Button>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4">
